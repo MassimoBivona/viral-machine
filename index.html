@@ -8,7 +8,7 @@
     <!-- Core Dependencies -->
     <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
-    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=IL-TUO-CLIENT-ID&currency=EUR"></script>
     
     <style>
         * {
@@ -691,35 +691,32 @@
     </div>
 
     <script>
-        // CONFIGURAZIONE REALE - INSERISCI I TUOI DATI QUI
+        // CONFIGURAZIONE REALE - INSERISCI I TUOI DATI PAYPAL QUI
         const CONFIG = {
-            // Stripe Configuration (INSERISCI LA TUA CHIAVE PUBBLICA)
-            STRIPE_PUBLIC_KEY: 'pk_test_51234567890abcdefghijklmnop', // Sostituisci con la tua
-            
-            // Il tuo webhook endpoint per ricevere i pagamenti
-            PAYMENT_WEBHOOK: 'https://your-server.com/webhook', // Il tuo server
-            
+            // PayPal Configuration - SOSTITUISCI CON I TUOI DATI
+            PAYPAL_CLIENT_ID: 'AdH4NpPFuP-oJ01J1un06t3tBdjlqNVFXQIOlRg_yFdeGyr0AV5TRUywc34MMdkbGn5-m4w4AWMT2PAO', // ← Metti qui il tuo PayPal Client ID
+            PAYPAL_EMAIL: 'gioia.giuseppe087@gmail.com', // ← Metti qui la tua email PayPal
+    
             // Storage Configuration
             STORAGE_PREFIX: 'viral_machine_',
-            
-            // API Endpoints (se hai un backend)
-            API_BASE: 'https://your-api.com/v1',
-            
+    
             // Image Generation Settings
             MAX_IMAGES_PER_USER: 100,
-            IMAGE_EXPIRY_DAYS: 30
+            IMAGE_EXPIRY_DAYS: 30,
+    
+            // Business Settings
+            BUSINESS_NAME: 'ViralVideo',
+            CURRENCY: 'EUR'
         };
 
         // Global State
-        let stripe = null;
-        let elements = null;
-        let cardElement = null;
+        let paypal = null;  // ← Cambia da stripe a paypal
         let currentTool = null;
         let currentPrice = 0;
         let userImages = [];
         let pyodide = null;
-        
-        // Stats
+
+        // Stats (questa parte resta uguale)
         let stats = {
             totalGenerated: parseInt(localStorage.getItem(CONFIG.STORAGE_PREFIX + 'generated') || 0),
             totalRevenue: parseFloat(localStorage.getItem(CONFIG.STORAGE_PREFIX + 'revenue') || 0),
